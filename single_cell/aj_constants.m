@@ -14,7 +14,7 @@ filmThickness = 100e-9; %m
 
 %calculations:
 photonEnergy = (h * c) ./ incidentWavelength; %energy of the given incident photons, J
-photonFluxDensity = incidentIntensity ./ photonEnergy; %photon flux density, #photons.m^-2.s^-1
+photonFluxDensity = I ./ photonEnergy; %photon flux density, #photons.m^-2.s^-1
 
 G0 = photonFluxDensity .* absorbance; %photons.m^-3.s^-1
 
@@ -34,14 +34,15 @@ kdt = 8e-6 %m^3.s^-1
 T = 2.5e22 %m^-3 (STRANK) (or 10e22 - 10e23, HERZ)
 
 %% list of constants
-k1 = ks(1); %exciton dissociation rate
-kd1 = ks(2); %non-radiative exciton decay
-kr = ks(3); %recombination rate
+ks = zeros(1, 7);
+ks(1) = k1; %exciton dissociation rate
+ks(2) = kd1; %non-radiative exciton decay
+ks(3) = kr; %recombination rate
 
-kt = ks(4); %trapping rate
-kdt = ks(5); %detrapping rate
-T = ks(6); %concentration of traps in material
+ks(4) = kt; %trapping rate
+ks(5) = kdt; %detrapping rate
+ks(6) = T; %concentration of traps in material
 
-G0 = ks(7); %generation rate
+ks(7) = G0; %generation rate
 
 

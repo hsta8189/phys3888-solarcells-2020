@@ -1,16 +1,13 @@
 close all;
 clearvars;
 
-%% setup rate constants
-run constants.m
+%% set up simulation and rate constants
 
-%% set up simulation
-
-ints = linspace(0.1, 1000,5);
+ints = linspace(0.1,1000,5);
 for I=ints
-
-    dydt = simple_model(I, G0, ks);
-    tspan = [0,2];
+    ks = aj_constants_fun(I);
+    dydt = aj_simple_model(I, ks);
+    tspan = [0,1];
 
     y0 = [0;0;0];
 
@@ -21,22 +18,22 @@ for I=ints
     plot(ts(:), ys(:,1))
     hold on;
 
-    ylabel("Exciton Concentration")
-    xlabel("t (microseconds)")
+    ylabel("Exciton Concentration (m^-3)")
+    xlabel("t (\mus)")
 
     subplot(3,1,2)
     plot(ts(:), ys(:,2))
     hold on;
 
-    ylabel("CT Concentration")
-    xlabel("t (microseconds)")
+    ylabel("Trap state occupation (m^-3)")
+    xlabel("t (\mus)")
 
     subplot(3,1,3)
     plot(ts(:), ys(:,3))
     hold on;
 
-    ylabel("FC Concentration")
-    xlabel("t (microseconds)")
+    ylabel("FC Concentration (m^-3)")
+    xlabel("t (\mus)")
 
 end
 

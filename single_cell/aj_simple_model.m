@@ -1,10 +1,10 @@
-function dydt = aj_simple_model(G0,ks)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-% dydt = [dExcitions; dChargeTransport; dFreeCharge]
+function dydt = aj_simple_model(I,ks)
+% Single-cell model, Alice's modified version
+%   
+% dydt = [dExcitons; dTrapState; dFreeCharge]
 
 %% Initialise inputs
-if nargin <= 2
+if nargin <= 1
     k1 = 1e10;
     
     kd1 = 1e7;
@@ -35,7 +35,7 @@ end
         TS = y(2);
         FC = y(3);       
         
-        dEx = G0 - kd1 * Ex -k1 * Ex;
+        dEx = G0*t - kd1 * Ex -k1 * Ex;
         dTS = kt*(T-TS)*FC - kdt*(TS^2 + TS*FC);
         dFC = k1 * Ex - kr * FC^2 - kt*Ex + kdt*Ex;
         
