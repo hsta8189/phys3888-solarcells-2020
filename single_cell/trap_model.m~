@@ -36,12 +36,11 @@ kdr = 10^9; % radiative recombination of excitons
     function dydt = derivs(t,y)
         Ex = y(1); % concentration of excitons
         TS = y(2); % concentration of total occupied traps
-        Ne = y(3); % concentration of free electrons 
-        Nh = Ne + TS; % concentration of free holes
-        
-        dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne*Nh - kdr * Ex;
+        Ne = y(3); % concentration of electrons 
+        Nh = Ne + Ts % conce
+        dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne^2 - kdr * Ex;
         dTS = kt*(T-TS)*Ne - kdt*(Ne);
-        dFC = k1 * Ex - kr * Ne*Nh - dTS;
+        dFC = k1 * Ex - kr * Ne^2 - dTs;
         
         
         dydt = [dEx; dTS; dFC];
