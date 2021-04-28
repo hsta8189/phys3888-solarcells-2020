@@ -1,6 +1,7 @@
-function dydt = aj_simple_model(I,ks)
-% Single-cell model, Alice's modified version
-%   
+function dydt = trap_model(I,ks)
+% Single-cell model,
+% Includes trap states, excludes charge transfer and radiative FC
+% recombinaion and exciton decay
 % dydt = [dExcitons; dTrapState; dFreeCharge]
 
 %% Initialise inputs
@@ -35,9 +36,11 @@ end
         TS = y(2); % concentration of total occupied traps
         FC = y(3); % concentration of free charges  
         
-        dEx = G0*t - kd1 * Ex -k1 * Ex;
-        dTS = kt*(T-TS)*FC - kdt*(TS^2 + TS*FC);
-        dFC = k1 * Ex - kr * FC^2 - kt*Ex + kdt*Ex;
+        dEx = G0 - kd1 * Ex - k1 * Ex + kr*FC^2;
+        dTS = kt*(T-TS)*FC - kdt*(TS*FC);
+        dFC = k1 * Ex - kr * FC^2 - kt*(T-TS)*FC + kdt*(TS*FC);
+        % dTS = kt*(T-TS)*FC - kdt*(TS^2 + TS*FC); % accounts for hole trapping
+        % dFC = k1 * Ex - kr * FC^2 - kt*(T-TS)*FC + kdt*(TS^2 + TS*FC);
         
         dydt = [dEx; dTS; dFC];
     end

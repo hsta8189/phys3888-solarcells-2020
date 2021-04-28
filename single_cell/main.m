@@ -9,7 +9,7 @@ run constants.m
 ints = linspace(0.1, 1000,5);
 for I=ints
 
-    dydt = simple_model(I, G0, ks);
+    % dydt = simple_model(I, G0, ks);
     tspan = [0,2];
 
     y0 = [0;0;0];

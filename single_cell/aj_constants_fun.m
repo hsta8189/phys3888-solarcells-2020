@@ -1,4 +1,4 @@
-function [ks] = aj_constants_fun(I, incidentWavelength, absorbance, filmThickness)
+function [ks] = aj_constants_fun(I, incidentWavelength, absorbance, filmThiccness)
 %AJ_CONSTANTS_FUN Calculate a vector of constants (ks) for the
 %aj_simple_model.
 
@@ -9,9 +9,9 @@ c = physconst("Lightspeed");
 if nargin<2
     incidentWavelength = 500e-9; %m
     absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
-    filmThickness = 100e-9; %m
+    filmThiccness = 100e-9; %m
 elseif nargin<3
-    filmThickness = 100e-9; %m
+    filmThiccness = 100e-9; %m
     incidentWavelength = 500e-9; %m
 end
 

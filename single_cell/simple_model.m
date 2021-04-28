@@ -21,7 +21,7 @@ else
     kd2 = ks(4);
     
     kr2 = ks(5);
-end
+    ends
 
 
 %% take derivatives
