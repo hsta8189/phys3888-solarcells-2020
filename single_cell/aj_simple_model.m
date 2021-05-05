@@ -35,7 +35,7 @@ end
         TS = y(2); % concentration of total occupied traps
         FC = y(3); % concentration of free charges  
         
-        dEx = G0*t - kd1 * Ex -k1 * Ex;
+        dEx = G0 - kd1 * Ex -k1 * Ex + kr*FC^2;
         dTS = kt*(T-TS)*FC - kdt*(TS^2 + TS*FC);
         dFC = k1 * Ex - kr * FC^2 - kt*Ex + kdt*Ex;
         

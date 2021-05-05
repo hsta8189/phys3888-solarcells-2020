@@ -24,31 +24,32 @@ photonFluxDensity = I ./ photonEnergy; %photon flux density, #photons.m^-2.s^-1
 G0 = photonFluxDensity .* absorbance; %photons.m^-3.s^-1
 
 %% k1: how rapidly do excitons dissociate
-%assume a temperature-activated Arrhenius eqn for a binding energy
 k1 = 10^12; %s^-1 (STRANK)
 
-%% kd1: decay rate one. How quickly do excitons decay (non-radiatively)
+%% Exciton decay rates (non-radiatively k1 or radiatively kdr)
 kd1 = 1e7; %%s^-1 (STRANK) (or 1 - 250 e6, HERZ)
+kdr = 1e9; % radiative recombination of excitons
 
 %% kr: bimolecular recombination rate: 10^-3 to 10^-5
-kr = 10e-3; %m^-3.s^-1 (HERZ)(SAJID)
+kr = 1/(1e-3); %m^-3.s^-1 (HERZ)(SAJID)
 
-%% Trapping, detrapping rates and trap concentration (STRANKS 2014)
-kt = 2e-4; %m^3.s^-1
-kdt = 8e-6; %m^3.s^-1
-T = 2.5e22; %m^-3 (STRANK) (or 10e22 - 10e23, HERZ)
+%% Trapping, detrapping rates and trap concentration (STRANKS 2014) (FIX THIS)
+kt = 1/(2e-4); %m^3.s^-1
+kdt = 1/(8e-6); %m^3.s^-1
+T = 2.5e22; %m^-3 (STRANK) (or 1e22 - 1e23, HERZ)
 
 %% list of constants
 ks = zeros(1, 7);
 ks(1) = k1; %exciton dissociation rate
 ks(2) = kd1; %non-radiative exciton decay
-ks(3) = kr; %recombination rate
+ks(3) = kdr;
+ks(4) = kr; %recombination rate
 
-ks(4) = kt; %trapping rate
-ks(5) = kdt; %detrapping rate
-ks(6) = T; %concentration of traps in material
+ks(5) = kt; %trapping rate
+ks(6) = kdt; %detrapping rate
+ks(7) = T; %concentration of traps in material
 
-ks(7) = G0; %generation rate
+ks(8) = G0; %generation rate
 
 end
 
