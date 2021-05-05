@@ -31,7 +31,7 @@ kd1 = 1e7; %%s^-1 (STRANK) (or 1 - 250 e6, HERZ)
 kdr = 1e9; % radiative recombination of excitons
 
 %% kr: bimolecular recombination rate: 10^-3 to 10^-5
-kr = 1/(1e-3); %m^-3.s^-1 (HERZ)(SAJID)
+kr = 1e-3; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ)
 
 %% Trapping, detrapping rates and trap concentration (STRANKS 2014) (FIX THIS)
 kt = 1/(2e-4); %m^3.s^-1
