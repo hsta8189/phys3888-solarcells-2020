@@ -11,7 +11,7 @@ for I=ints
 
     [ks, epsilon, mu_p, mu_n, d] = aj_constants_fun(I);
     dydt = trap_model(I, ks);
-    tspan = [0,10e-6];
+    tspan = [0,40e-6];
 
     y0 = [0;0;0];
 

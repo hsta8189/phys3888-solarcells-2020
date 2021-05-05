@@ -19,16 +19,17 @@ if nargin <= 1
 else
     k1 = ks(1); %exciton dissociation rate
     kd1 = ks(2); %non-radiative exciton decay
-    kr = ks(3); %recombination rate
+    kdr = ks(3);
+    kr = ks(4); %recombination rate
     
-    kt = ks(4); %trapping rate
-    kdt = ks(5); %detrapping rate
-    T = ks(6); % concentration of traps in material
+    kt = ks(5); %trapping rate
+    kdt = ks(6); %detrapping rate
+    T = ks(7); % concentration of traps in material
     
-    G0 = ks(7); %generation rate
+    G0 = ks(8); %generation rate
 end
 
-kdr = 10^9; % radiative recombination of excitons
+
 
 
 %% take derivatives
@@ -40,7 +41,7 @@ kdr = 10^9; % radiative recombination of excitons
         Nh = Ne + TS; % concentration of free holes
         
         dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne*Nh - kdr * Ex;
-        dTS = kt*(T-TS)*Ne - kdt*(Ne);
+        dTS = kt*(T-TS)*Ne - kdt*(TS);
         dFC = k1 * Ex - kr * Ne*Nh - dTS;
         
         
