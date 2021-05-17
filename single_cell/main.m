@@ -3,19 +3,20 @@ clearvars;
 
 %% setup rate constants
 
-
+e = 1.602e-19; % fundamental charge in coulombs
 %% set up simulation
 
 ints = linspace(0.1, 1000,5);
 for I=ints
 
-    ks = aj_constants_fun(I);
-    dydt = trap_model(I, ks);
+    [ks, epsilon, mu_p, mu_e, d] = aj_constants_fun(I);
+    dydt = curr_model(I, ks);
     tspan = [0,40e-6];
 
     y0 = [0;0;0];
 
     [ts, ys] = ode15s(dydt, tspan, y0);
+    
 
     %% Plot results
     subplot(3,1,1)
@@ -38,6 +39,7 @@ for I=ints
 
     ylabel("Free Electron Concentration")
     xlabel("t (\mu s)")
+    
 
 end
 

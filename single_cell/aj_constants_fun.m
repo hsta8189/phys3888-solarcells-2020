@@ -1,4 +1,4 @@
-function [ks] = aj_constants_fun(I, incidentWavelength, absorbance, filmThiccness)
+function [ks, epsilon, mu_p, mu_e, filmThiccness] = aj_constants_fun(I, incidentWavelength, absorbance, filmThiccness)
 %AJ_CONSTANTS_FUN Calculate a vector of constants (ks) for the
 %aj_simple_model.
 
@@ -51,5 +51,15 @@ ks(7) = T; %concentration of traps in material
 
 ks(8) = G0; %generation rate
 
+%% constants for current calculation
+% mobilities assumed constant
+
+mu_e = 1e-8; %% PLACEHOLDER
+mu_p = 1e-8; %% PLACEHOLDER
+
+epsilon0 = 8.85e-12; %C^2 /Nm^2
+epsilonrel = 15; %% PLACEHOLDER
+
+epsilon = epsilon0 * epsilonrel;
 end
 
