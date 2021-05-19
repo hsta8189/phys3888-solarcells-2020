@@ -1,4 +1,4 @@
-function dydt = curr_model_test(I, ks, epsilon, mu_h, mu_e, d)
+function dydt = curr_model(I, ks, epsilon, mu_h, mu_e, d)
 % Single-cell model,
 % Includes trap states, excludes charge transfer and radiative FC
 % recombinaion and exciton decay
@@ -40,14 +40,14 @@ e = 1.602e-19;
         Ne = y(3); % concentration of free electrons 
         Nh = Ne + TS; % concentration of free holes
         
-        Jsc = e^2 * d * (mu_h* Nh + mu_e * Ne) * ( Nh - Ne) / epsilon;
+        Jsc = e^2 * d * (mu_h* Nh - mu_e * Ne) * ( Nh - Ne) / epsilon;
         
         dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne*Nh - kdr * Ex;
         dTS = kt*(T-TS)*Ne - kdt*(TS);
-        dNe = k1 * Ex - kr * Ne*Nh - kt*(T-TS)*Ne - Jsc / (2 *e);
+        dFC = k1 * Ex - kr * Ne*Nh - dTS - Jsc;
         
         
-        dydt = [dEx; dTS; dNe];
+        dydt = [dEx; dTS; dFC];
     end
 
 dydt = @derivs;
