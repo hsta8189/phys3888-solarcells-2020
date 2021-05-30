@@ -5,6 +5,8 @@ function [ks, epsilon, mu_p, mu_e, filmThiccness] = aj_constants_fun(I, incident
 %% constant constants:
 h = 6.626e-34; %Planck's constant, m^2 kg / s
 c = physconst("Lightspeed"); 
+kB = physconst('Boltzmann');
+temp = 300;
 
 if nargin<2
     incidentWavelength = 500e-9; %m
@@ -34,9 +36,17 @@ kdr = 1e9; % radiative recombination of excitons
 kr = 1e-3; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ)
 
 %% Trapping, detrapping rates and trap concentration (STRANKS 2014) (FIX THIS)
-kt = 1/(2e-4); %m^3.s^-1
-kdt = 1/(8e-6); %m^3.s^-1
+% kt = (2e-4); %m^3.s^-1
+% kdt = (8e-6); %m^3.s^-1
+% (ANITA)
+kt = 1/(6.72e-8); %s^-1
+kdt = 1/(1.68e-6); % s^-1
+
 T = 2.5e22; %m^-3 (STRANK) (or 1e22 - 1e23, HERZ)
+
+% Ni = ;  % intrinsic carrier density
+% beta = 1/(kB * temp); % thermodynamic temperatre (1/kT)
+% delta = ; % E_{trap} - fermi energy
 
 %% list of constants
 ks = zeros(1, 7);
@@ -51,11 +61,15 @@ ks(7) = T; %concentration of traps in material
 
 ks(8) = G0; %generation rate
 
+% ks(9) = Ni;  % intrinsic carrier density
+% ks(10) = beta; % thermodynamic temperatre (1/kT)
+% ks(11) = delta; % E_{trap} - fermi energy
+
 %% constants for current calculation
 % mobilities assumed constant
 
-mu_e = 1e-8; %% PLACEHOLDER
-mu_p = 1e-8; %% PLACEHOLDER
+mu_e = 37e-4; %% (JOHNSTON-HERZ-2016)
+mu_p = mu_e; %%
 
 epsilon0 = 8.85e-12; %C^2 /Nm^2
 epsilonrel = 15; %% PLACEHOLDER

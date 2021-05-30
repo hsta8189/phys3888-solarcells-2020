@@ -1,4 +1,4 @@
-function dydt = curr_model(I, ks, epsilon, mu_h, mu_e, d)
+function dydt = advanced_trapping(I, ks, epsilon, mu_h, mu_e, d)
 % Single-cell model,
 % Includes trap states, excludes charge transfer and radiative FC
 % recombinaion and exciton decay
@@ -27,11 +27,14 @@ else
     T = ks(7); % concentration of traps in material
     
     G0 = ks(8); %generation rate
+    
+%     Ni = ks(9);  % intrinsic carrier density
+%     beta = ks(10); % thermodynamic temperatre (1/kT)
+%     delta = ks(11); % E_{trap} - fermi energy
 end
 
 e = 1.602e-19;
-alpha = 1;
-perc_Ne = 0;
+
 
 %% take derivatives
 
@@ -42,10 +45,13 @@ perc_Ne = 0;
         Nh = Ne + TS; % concentration of free holes
         
         Jsc = e^2 * d * (mu_h* Nh + mu_e * Ne) * ( Nh - Ne) / epsilon;
+        Rn = kt * (Ne * (T - TS) / T - Ne * TS / T);
+        Rp = kdt * (Nh * (TS) / T );
+        
         
         dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne*Nh - kdr * Ex;
-        dTS = kt*(T-TS)*Ne ./ T - kdt*(TS);
-        dNe = k1 * Ex - kr * Ne*Nh - kt*(T-TS)*Ne / T  - Jsc / (2 *e * d);
+        dTS = Rn - Rp;
+        dNe = k1 * Ex - kr * Ne*Nh - kt*(T-TS)*Ne / T - Jsc / (2 *e);
         
         
         dydt = [dEx; dTS; dNe];

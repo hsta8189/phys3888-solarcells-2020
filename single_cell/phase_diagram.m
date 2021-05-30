@@ -1,45 +1,5 @@
 function results = phase_diagram(model, I, alpha_lower_mult, alpha_upper_mult, beta_lower_mult, beta_upper_mult, nalphas, nbetas, plot_time_series, runtime)
 %% set up simulation and rate constants
-if nargin == 0
-    model = 'curr_model';
-    I = 1;
-    alpha_lower_mult = 0.1;
-    alpha_upper_mult = 10;
-    beta_lower_mult = 0.1;
-    beta_upper_mult = 10;
-    nalphas = 10;
-    nbetas = 10;
-    plot_time_series = false;
-    runtime = 40e-6;
-    
-elseif nargin == 1
-    I = 1;
-    alpha_lower_mult = 0.1;
-    alpha_upper_mult = 10;
-    beta_lower_mult = 0.1;
-    beta_upper_mult = 10;
-    nalphas = 10;
-    nbetas = 10;
-    plot_time_series = false;
-    runtime = 40e-6;
-    
-elseif nargin == 2
-    alpha_lower_mult = 0.1;
-    alpha_upper_mult = 10;
-    beta_lower_mult = 0.1;
-    beta_upper_mult = 10;
-    nalphas = 10;
-    nbetas = 10;
-    plot_time_series = false;
-    runtime = 40e-6;
-    
-elseif nargin == 8
-    plot_time_series = false;
-    runtime = 40e-6;
-    
-end
-
-
 
 switch model
     case 'ajtraps'
@@ -59,9 +19,10 @@ e = 1.602e-19; % fundamental charge in coulombs
 alpha0 = ks(5) / ks(6);
 beta0 = ks(1) / ks(4); 
 
-alphas = linspace(alpha_lower_mult, alpha_upper_mult, nalphas) * alpha0;
-betas =  linspace(beta_lower_mult, beta_upper_mult, nbetas) * beta0;
+alphas = alpha0 * 10.^ linspace(log10(alpha_lower_mult), log10(alpha_upper_mult), nalphas) ;
+betas =  beta0 * 10 .^ linspace(log10(beta_lower_mult), log10(beta_upper_mult), nbetas) ;
 results = zeros(nalphas, nbetas);
+currs = zeros(nalphas, nbetas);
 
 
 if plot_time_series
@@ -87,9 +48,20 @@ for i = 1:nalphas
         nt = ys(:,2);
         nx = ys(:,1);
         nh = ne + nt;
-        Jsc = e^2 * d * (mu_h* nh - mu_e * ne).^2 / epsilon;
+        Jsc = e^2 * d * (mu_h* nh + mu_e * ne).* (nh - ne)/ epsilon;
         
-        results(i,j) = Jsc(end);
+        h = 6.626e-34; %Planck's constant, m^2 kg / s
+        c = physconst("Lightspeed"); 
+
+        incidentWavelength = 500e-9; %m
+
+        photonEnergy = (h * c) ./ incidentWavelength; %energy of the given incident photons, J
+        photonFluxDensity = I ./ photonEnergy; %photon flux density, #photons.m^-2.s^-1
+
+        quantum_efficiency = (Jsc(end) / e) / photonFluxDensity;
+        
+        results(i,j) = quantum_efficiency;
+        currs(i,j) = Jsc(end);
 
         %% Plot results
         if plot_time_series
@@ -131,10 +103,14 @@ if plot_time_series
     title(l, 'Intensity (watts)')
 end
    
-[XS, YS] = meshgrid(alphas, betas);
+[XS, YS] = meshgrid(log10(alphas), log10(betas));
 figure()
-pcolor(XS, YS, results');
-xlabel('\alpha- value (kT / kdT)')
-ylabel('\beta-value (k1 / kr)')
+colormap(hsv)
+results = currs;
+p =pcolor(XS, YS, log10(abs(results')));
+% set(p, 'EdgeColor', 'none');
+xlabel('Trapping / detrapping order log10(kT / kdT)')
+ylabel('Exiton dissociation / free charge recombination order  log10(k1 / kr)')
+title(sprintf("Phase diagram at I=%dW/m^2,", I) )
 c = colorbar();
-c.Label.String = 'J_{SC}';
+c.Label.String = 'log10(Jsc)';

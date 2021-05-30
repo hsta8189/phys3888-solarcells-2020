@@ -31,7 +31,7 @@ end
 
 e = 1.602e-19;
 alpha = 1;
-perc_Ne = 0;
+
 
 %% take derivatives
 
@@ -44,8 +44,8 @@ perc_Ne = 0;
         Jsc = e^2 * d * (mu_h* Nh + mu_e * Ne) * ( Nh - Ne) / epsilon;
         
         dEx = G0 - kd1 * Ex - k1 * Ex + kr*Ne*Nh - kdr * Ex;
-        dTS = kt*(T-TS)*Ne ./ T - kdt*(TS);
-        dNe = k1 * Ex - kr * Ne*Nh - kt*(T-TS)*Ne / T  - Jsc / (2 *e * d);
+        dTS = kt*(T-TS)*Ne ./ T - alpha * kdt*(TS);
+        dNe = k1 * Ex - kr * Ne*Nh - kt*(T-TS)*Ne / T  + alpha * kdt *TS - Jsc / (2 *e * d);
         
         
         dydt = [dEx; dTS; dNe];

@@ -6,7 +6,7 @@ clearvars;
 e = 1.602e-19; % fundamental charge in coulombs
 %% set up simulation
 
-ints = linspace(0.1, 1000,5);
+ints = [0.1,1,10,100,1000];
 for I=ints
 
     [ks, epsilon, mu_h, mu_e, d] = aj_constants_fun(I);
@@ -21,32 +21,32 @@ for I=ints
     nt = ys(:,2);
     nx = ys(:,1);
     nh = ne + nt;
-    Jsc = e^2 * d * (mu_h* nh - mu_e * ne).^2 / epsilon;
+    Jsc = e^2 * d * (mu_h* nh + mu_e * ne).* (nh - ne)/ epsilon;
 
     %% Plot results
     subplot(2,2,1)
-    plot(ts(:) * 1e6, nx)
+    semilogy(ts(:) * 1e6, nx)
     hold on;
 
     ylabel("Exciton Concentration")
     xlabel("t (\mu s)")
 
     subplot(2,2,2)
-    plot(ts(:) * 1e6, nt)
+    semilogy(ts(:) * 1e6, nt)
     hold on;
 
     ylabel("Occupied Trap Concentration")
     xlabel("t (\mu s)")
 
     subplot(2,2,3)
-    plot(ts(:) * 1e6, ne)
+    semilogy(ts(:) * 1e6, ne)
     hold on;
 
     ylabel("Free Electron Concentration")
     xlabel("t (\mu s)")
     
     subplot(2,2,4)
-    plot(ts(:) * 1e6, Jsc)
+    semilogy(ts(:) * 1e6, Jsc)
     hold on;
 
     ylabel("Current density")
