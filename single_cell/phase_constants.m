@@ -19,7 +19,9 @@ function [ks] = phase_constants(alpha, beta, ks)
 %     ks(8) = G0; %generation rate
     %% body
     % source constants
-
+    % we want alpha0 = ks(5) / ks(6);
+    %               beta0 = ks(1) / ks(4); 
+    
     ks(5) = alpha^(0.5);
     ks(6) = alpha^(-0.5);
     

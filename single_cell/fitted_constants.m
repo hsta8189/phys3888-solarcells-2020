@@ -1,4 +1,4 @@
-function [ks, epsilon, mu_p, mu_e, filmThiccness] = aj_constants_fun(I, incidentWavelength, absorbance, filmThiccness)
+function [ks, epsilon, mu_p, mu_e, filmThiccness] = fitted_constants(I, incidentWavelength, absorbance, filmThiccness)
 %AJ_CONSTANTS_FUN Calculate a vector of constants (ks) for the
 %aj_simple_model.
 
@@ -10,8 +10,7 @@ temp = 300;
 
 if nargin<2
     incidentWavelength = 500e-9; %m
-    %  absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
-    absorbance = 10e6; %photons absorbed per metre of film thickness, #photons / m
+    absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
     filmThiccness = 100e-9; %m
 elseif nargin<3
     filmThiccness = 100e-9; %m
@@ -48,6 +47,12 @@ T = 2.5e22; %m^-3 (STRANK) (or 1e22 - 1e23, HERZ)
 % Ni = ;  % intrinsic carrier density
 % beta = 1/(kB * temp); % thermodynamic temperatre (1/kT)
 % delta = ; % E_{trap} - fermi energy
+%% fitting
+k1 = k1 * 10;
+kr = kr / 10;
+
+kt = kt * 100;
+kdt = kdt / 100;
 
 %% list of constants
 ks = zeros(1, 7);
@@ -73,8 +78,10 @@ mu_e = 37e-4; %% (JOHNSTON-HERZ-2016)
 mu_p = mu_e; %%
 
 epsilon0 = 8.85e-12; %C^2 /Nm^2
-epsilonrel = 15; 
+epsilonrel = 15; %% PLACEHOLDER
 
 epsilon = epsilon0 * epsilonrel;
+
+
 end
 

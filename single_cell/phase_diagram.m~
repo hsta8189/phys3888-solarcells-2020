@@ -154,11 +154,11 @@ xs = f.XTickLabel;
 ys = f.YTickLabel;
 
 for i = 1:length(xs)
-    xs{i} = sprintf("10^{%s}", xs{i});
+    xs{i} = sprintf("10^%s}", xs{i});
 end
 
 for i = 1:length(ys)
-    ys{i} = sprintf("10^{%s}", ys{i});
+    ys{i} = sprintf("{10^%s}", ys{i});
 end
 
 f.XTickLabel = xs;
