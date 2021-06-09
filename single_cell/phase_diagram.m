@@ -144,9 +144,9 @@ set(p, 'EdgeColor', 'none');
 plot([0], [0], 'xk', 'MarkerSize', 20) % plot centre
 
 
-xlabel('Deviation from Literature Trapping / Detrapping (kT / kdT)')
-ylabel('Deviation from Literature Exiton dissociation / Free Charge Recombination  (k1 / kr)')
-title(sprintf("Phase diagram at I=%dW/m^2, X is literature constants", I) )
+xlabel('Deviation from literature trapping / detrapping (kT / kdT)')
+ylabel('Deviation from literature exciton dissociation / free charge recombination  (k1 / kr)')
+%title(sprintf("Phase diagram at I=%dW/m^2, X is literature constants", I) )
 
 % set axis to reflect logarithmic scale (avoids interaction between log axis and color scale)
 f = gca();
