@@ -2,21 +2,23 @@ close all;
 clearvars;
 
 %% setup rate constants
-
 e = 1.602e-19; % fundamental charge in coulombs
+% for other constants see  aj_constants_fun()
+
 %% set up simulation
-nints = 100; % numbe 
+nints = 100; % number of intensity calculations
 plotTimeSeries = false;
+plotParallel = false; % whether to plot experimental data on the simulation data plot
 
 % whether to ~loosely~ adjust constants to fit experiment to an order of magnitude
 % keep this as false, there is no reason the thin cell model needs to match
-% a device model
+% a device's output (in fact we don't expect it to)
 fitted = false; 
 
 
 % intensities to use, both linear and logarithmic are used to catch the
 % different trends and plot nicely
-ints = [linspace(1,1200, nints), logspace(0,log10(1200), nints)];
+ints = [linspace(1,1000, nints), logspace(0,log10(1000), nints)];
 
 % initialise array
 nes = zeros(nints,1);
@@ -29,8 +31,12 @@ for I=ints
     if fitted
         [ks, epsilon, mu_h, mu_e, d] = fitted_constants(I);
     else
-        % literature verified
-        [ks, epsilon, mu_h, mu_e, d] = aj_constants_fun(I);
+        % literature verified - use this 
+        incidentWavelength = 500e-9; %m
+        %  absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
+        absorbance = 10e6; %photons absorbed per metre of film thickness, #photons / m
+        filmThickness = 100e-9; %m
+        [ks, epsilon, mu_h, mu_e, d] = aj_constants_fun(I, incidentWavelength, absorbance, filmThickness);
     end
     
     % 
@@ -125,19 +131,22 @@ set(gca,'xscale','log')
 set(gca,'yscale','log')
 
 
-ylabel("Exciton Concentration")
+ylabel("Exciton concentration (m^{-3})")
 xlabel("Incident intensity, \lambda = 500nm, (W/m^2)")
 
 subplot(2,3,2)
 hold on;
 scatter(ints(nints + 1:end), nts(nints+ 1:end), 1, 'k')
 % plot(ints, nts)
+% line([0;1000], [ks(7); ks(7)])
+
+
 set(gca,'xscale','log')
 set(gca,'yscale','log')
 
 
-ylabel("Occupied Trap Concentration")
-xlabel("Incident intensity, \lambda = 500nm, N_t = 2.5e22, (W/m^2)")
+ylabel("Occupied trap concentration (m^{-3})")
+xlabel("Incident intensity, \lambda = 500nm, n_T = 2.5e22, (W/m^2)")
 
 subplot(2,3,3)
 hold on;
@@ -147,24 +156,47 @@ set(gca,'xscale','log')
 set(gca,'yscale','log')
 
 
-ylabel("Free Electron Concentration")
+ylabel("Free electron concentration (m^{-3})")
 xlabel("Incident intensity, \lambda = 500nm, (W/m^2)")
 
+
+% Experimental J_sc, sourced from main/Light Intensity IV
 subplot(2,3,4)
 hold on;
-scatter(ints(1:nints), Jsc(1:nints) * 10^(3), 1, 'k')
-% plot(ints, Jsc)
-%set(gca,'xscale','log')
-% set(gca,'yscale','log')
+filters = [1001 917 772 638 591 512 445 226 181 100 89 7]; %W/m^2
+filter_labels = ['sun' 'T89' 'T75' 'T63' 'T56' 'T51' 'T39' 'T20' 'T18' 'T8' 'T5.1' 'Room'];
+x = filters;
 
+J_sc = [20.33108177 18.4752409 15.9533325 13.19578601 12.82105289 10.75038663 10.06602349 5.169450001 4.316684523 3.274100686 2.361920534 0.101659462];
+scatter(x,J_sc, 6, 'k')
 
-ylabel("Short Circuit Current  (mA/m^2)")
-xlabel("Intensity  (W/m^2)")
+title('Experimental Data')
+xlabel('Intensity (W/m^2)')
+xlim([0 1002])
+ylabel('Short Circuit Current (mA/cm^2)')
 
 subplot(2,3,5)
+hold on;
+if plotParallel
+    scatter(x,J_sc, 20, 'r')
+    plot(ints(1:nints), Jsc(1:nints) * 10^(-1), 'k')
+    legend(["Experimental Data", "Model Fit"])
+else
+    scatter(ints(1:nints), Jsc(1:nints) * 10^(-1), 1, 'k')
+    % plot(ints, Jsc)
+    %set(gca,'xscale','log')
+    % set(gca,'yscale','log')
+
+end
+
+ylabel("Short Circuit Current  (mA/cm^2)")
+xlabel("Intensity  (W/m^2)")
+
+subplot(2,3,6)
 scatter(ints(nints+ 1:end), quantum_efficiency(nints+ 1:end), 1, 'k')
 xlabel("Incident intensity, \lambda = 500nm, (W/m^2)")
 ylabel("quantum efficiency")
 
 set(gca,'xscale','log')
 set(gca,'yscale','log')
+

@@ -12,9 +12,9 @@ if nargin<2
     incidentWavelength = 500e-9; %m
     %  absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
     absorbance = 10e6; %photons absorbed per metre of film thickness, #photons / m
-    filmThiccness = 100e-9; %m
+    filmThiccness = 500e-9; %m
 elseif nargin<3
-    filmThiccness = 100e-9; %m
+    filmThiccness = 500e-9; %m
     incidentWavelength = 500e-9; %m
 end
 
@@ -34,7 +34,7 @@ kd1 = 250e6; %%s^-1 (STRANK) (or 1 - 250 e6, HERZ)
 kdr = 1e9; % radiative recombination of excitons
 
 %% kr: bimolecular recombination rate: 10^-3 to 10^-5
-kr = 1e-3; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ)
+kr = 1e-5; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ)
 
 %% Trapping, detrapping rates and trap concentration (STRANKS 2014) (FIX THIS)
 % kt = (2e-4); %m^3.s^-1

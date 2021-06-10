@@ -65,7 +65,7 @@ for i = 1:nalphas
         tspan = [0,runtime];
 
         % inital conditions [conc exitons, conc occupied traps, conc of free electrons] 
-        y0 = [0;0;0];
+        y0 = [1e10;1e10;1e10];
 
         % integrate
         [ts, ys] = ode15s(dydt, tspan, y0);
@@ -141,18 +141,19 @@ results = currs;
 
 p =pcolor(XS, YS, log10(abs(results')));
 set(p, 'EdgeColor', 'none');
-plot([0], [0], 'xk', 'MarkerSize', 20) % plot centre
+plot([0], [0], 'xk', 'MarkerSize', 30) % plot lit values
 
 
-xlabel('Deviation from literature trapping / detrapping (kT / kdT)')
-ylabel('Deviation from literature exciton dissociation / free charge recombination  (k1 / kr)')
+xlabel('Multiple of literature trapping / detrapping rate (kT / kdT)')
+ylabel('Multiple of literature exciton dissociation / free charge recombination rate (k1 / kr)')
 %title(sprintf("Phase diagram at I=%dW/m^2, X is literature constants", I) )
 
-% set axis to reflect logarithmic scale (avoids interaction between log axis and color scale)
 f = gca();
 xs = f.XTickLabel;
 ys = f.YTickLabel;
 
+
+% Make the scale labels multiples rather than log10(multiple)
 for i = 1:length(xs)
     xs{i} = sprintf("10^{%s}", xs{i});
 end
@@ -166,3 +167,7 @@ f.YTickLabel = ys;
 
 c = colorbar();
 c.Label.String = 'log10(Jsc)';
+
+% Adjust font size for readability
+f.FontSize = 16;
+c.FontSize = 18;
