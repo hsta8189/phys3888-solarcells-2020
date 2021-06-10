@@ -10,10 +10,6 @@ nints = 100; % number of intensity calculations
 plotTimeSeries = false;
 plotParallel = false; % whether to plot experimental data on the simulation data plot
 
-% whether to ~loosely~ adjust constants to fit experiment to an order of magnitude
-% keep this as false, there is no reason the thin cell model needs to match
-% a device's output (in fact we don't expect it to)
-fitted = false; 
 
 
 % intensities to use, both linear and logarithmic are used to catch the
@@ -28,16 +24,16 @@ nhs = zeros(nints,1);
 
 i = 1;
 for I=ints
-    if fitted
-        [ks, epsilon, mu_h, mu_e, d] = fitted_constants(I);
-    else
-        % literature verified - use this 
+    
+        
         incidentWavelength = 500e-9; %m
         %  absorbance = 1.5e6; %photons absorbed per metre of film thickness, #photons / m
         absorbance = 10e6; %photons absorbed per metre of film thickness, #photons / m
         filmThickness = 100e-9; %m
+        
+        % literature verified  constants
         [ks, epsilon, mu_h, mu_e, d] = aj_constants_fun(I, incidentWavelength, absorbance, filmThickness);
-    end
+    
     
     % 
     dydt = curr_model(I, ks, epsilon, mu_h, mu_e, d);
