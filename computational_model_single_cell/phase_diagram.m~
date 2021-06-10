@@ -1,4 +1,4 @@
-function [results, alphas_scaled, betas_scaled] = phase_diagram(model, I, alpha_lower_mult, alpha_upper_mult, beta_lower_mult, beta_upper_mult, nalphas, nbetas, plot_time_series, runtime)
+function [currvals, alphas_scaled, betas_scaled] = phase_diagram(model, I, alpha_lower_mult, alpha_upper_mult, beta_lower_mult, beta_upper_mult, nalphas, nbetas, plot_time_series, runtime)
 %% Generate the equilibrium short circuit current phase diagram by scaling constants from the literature, usese the specified model and incident intensity
 % model:              The model of the solar cell to use
 % I:                     The incident intensity to model in W/m^2
@@ -171,7 +171,4 @@ c.Label.String = 'log10(Jsc)';
 f.FontSize = 16;
 c.FontSize = 18;
 
-% return results for caching
-results = currs;
-alphas_scaled = alphas / alpha0;
-betas_scaled = betas / beta0;
+% 

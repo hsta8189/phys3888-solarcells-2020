@@ -19,16 +19,17 @@ plot_time_series = false; % whether to plot time evolution
 runtime = 40; %time to run model for in seconds
 
 % whether to regenerate the matrix, this is quite time intensive as it involves solving nalphas * nbetas odes.
-makenew = true;
+makenew = false;
 
 
 if makenew
-    currvals = phase_diagram('curr_model', intensity, alpha_lower_mult, alpha_upper_mult, beta_lower_mult, beta_upper_mult, nalphas, nbetas, plot_time_series, runtime);
-    save('phase_data/results.mat', currvals);
+    [currvals, alphas_scaled, betas_scaled] = phase_diagram('curr_model', intensity, alpha_lower_mult, alpha_upper_mult, beta_lower_mult, beta_upper_mult, nalphas, nbetas, plot_time_series, runtime);
+    save('phase_data/results.mat', 'currvals', 'alphas_scaled', 'betas_scaled');
+    
 else
-    currvals = load('phase_data/results.mat', currvals);
+    load('phase_data/results.mat', 'currvals', 'alphas_scaled', 'betas_scaled');
     % plot phase diagram
-    [XS, YS] = meshgrid(log10(alphas / alpha0), log10(betas / beta0));
+    [XS, YS] = meshgrid(log10(alphas_scaled), log10(betas_scaled));
     figure()
     hold on;
     colormap(hsv)
