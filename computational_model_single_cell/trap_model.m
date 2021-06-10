@@ -1,7 +1,7 @@
 function dydt = trap_model(I,ks)
 % Single-cell model,
-% Includes trap states, excludes charge transfer and radiative FC
-% recombinaion and exciton decay
+% Includes trap states, excludes charge transfer and radiative FC, excludes current flow, recombination and exciton decay
+%%  see curr_model for a more physically accurate version
 % dydt = [dExcitons; dTrapState; dElectrons]
 
 %% Initialise inputs
