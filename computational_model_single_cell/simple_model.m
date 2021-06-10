@@ -1,6 +1,6 @@
 function dydt = simple_model(I,G0,ks)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+% A simple equilibrium solar cell model that does not include trapping or external current
+%%  see curr_model for a more physically accurate version
 % dydt = [dExcitions; dChargeTransport; dFreeCharge]
 
 %% Initialise inputs
