@@ -1,6 +1,8 @@
 Simulation of perovskite solar cells in MATLAB. 
 Herewith be the solar cells code for PHYS3888, 2021 (not 2020, despite what the name says). 
 
+This is a much cleaner and presentable fork of https://github.com/ajef8473/phys3888-solarcells-2020, look there for some extra experimental data and a lot of outdated models, however it is poorly documented, and you do so at your own risk ⚠️. This repo contains all useful models and data for your thin cell perovskite needs.
+
 computational_model_single_cell contains a model of a thin, perovskite solar cell at equilibrium implemented in MATLAB. It calculates the short circuit current, exciton concentraion, free charge concentration, occupied trap concentration, and quantum efficiency across a range of intensity values (defaults to [1,1000]). Rate constants and material specific parameters are sourced from literature, as listed in aj_constants_fun. By default the model used is curr_model.m, the most advanced at present, (and what you need for almost any application), however, if you wish you may change the model type to any of the following by altering main.m:
 
 - simple_model.m: An equilibrium current model which calculates exciton and free charge carrier concentrations using rate constants. Primarily based off of previous models of organic solar cells, however misses several of the main effects due to both the lack of trapping and the thin film assumption.
