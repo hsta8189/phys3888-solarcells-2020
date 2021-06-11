@@ -156,7 +156,7 @@ ylabel("Free electron concentration (m^{-3})")
 xlabel("Incident intensity, \lambda = 500nm, (W/m^2)")
 
 
-% Experimental J_sc, sourced from main/Light Intensity IV
+% Experimental J_sc, sourced from real perovskites! see report section 3 for details
 subplot(2,3,4)
 hold on;
 filters = [1001 917 772 638 591 512 445 226 181 100 89 7]; %W/m^2
