@@ -19,7 +19,7 @@ plot_time_series = false; % whether to plot time evolution
 runtime = 40; %time to run model for in seconds
 
 % whether to regenerate the matrix, this is quite time intensive as it involves solving nalphas * nbetas odes.
-makenew = false;
+makenew = true;
 
 
 if makenew
