@@ -30,21 +30,20 @@ G0 = photonFluxDensity .* absorbance; %photons.m^-3.s^-1
 k1 = 10^12; %s^-1 (STRANK)
 
 %% Exciton decay rates (non-radiatively k1 or radiatively kdr)
-kd1 = 250e6; %%s^-1 (STRANK) (or 1 - 250 e6, HERZ)
-kdr = 1e9; % radiative recombination of excitons
+kd1 = 250e6; %%s^-1 (HERZ)
+kdr = 1e9; % (HERZ)
 
 %% kr: bimolecular recombination rate: 10^-3 to 10^-5
-kr = 1e-5; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ)
+kr = 1e-5; %m^-3.s^-1 (HERZ)(SAJID)(JOHNSTON/HERZ 2016)
 
-%% Trapping, detrapping rates and trap concentration (STRANKS 2014) (FIX THIS)
-% kt = (2e-4); %m^3.s^-1
-% kdt = (8e-6); %m^3.s^-1
-% (ANITA)
+%% Trapping, detrapping rates and trap concentration
+% (HO-BAILLIE)
 kt = 1/(6.72e-8); %s^-1
 kdt = 1/(1.68e-6); % s^-1
 
 T = 2.5e22; %m^-3 (STRANK) (or 1e22 - 1e23, HERZ)
 
+%% Future temp. dependency stuff: (not implemented)
 % Ni = ;  % intrinsic carrier density
 % beta = 1/(kB * temp); % thermodynamic temperatre (1/kT)
 % delta = ; % E_{trap} - fermi energy
@@ -69,7 +68,7 @@ ks(8) = G0; %generation rate
 %% constants for current calculation
 % mobilities assumed constant
 
-mu_e = 37e-4; %% (JOHNSTON-HERZ-2016)
+mu_e = 37e-4; %% (JOHNSTON/HERZ 2016)
 mu_p = mu_e; %%
 
 epsilon0 = 8.85e-12; %C^2 /Nm^2

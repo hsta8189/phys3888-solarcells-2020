@@ -1,10 +1,9 @@
-function dydt = simple_model(I,G0,ks)
+function dydt = simple_model()
 % A simple equilibrium solar cell model that does not include trapping or external current
 %%  see curr_model for a more physically accurate version
 % dydt = [dExcitions; dChargeTransport; dFreeCharge]
 
-%% Initialise inputs
-if nargin <= 2
+%% Initialise inputs: dummy, unresearched inputs used here as placeholders
     k1 = 1e10;
     k2 = 1e9;
     
@@ -12,18 +11,8 @@ if nargin <= 2
     kd2 = 1e8;
     
     kr2 = 1e7;
-else
-    
-    k1 = ks(1);
-    k2 = ks(2);
-    
-    kd1 = ks(3);
-    kd2 = ks(4);
-    
-    kr2 = ks(5);
-    ends
 
-
+    G0 = 2.5171e+37; %generation for incident intensity of 1000 W.m^-2, all other variables same as main.m
 %% take derivatives
 
     function dydt = derivs(t,y)
@@ -31,7 +20,7 @@ else
         CT = y(2);
         FC = y(3);
         
-        dEx = G0 * I -kd1 * Ex -k1 * Ex;
+        dEx = G0 - kd1 * Ex -k1 * Ex;
         dCT = k1 * Ex - kd2 * CT -k2 * CT + kr2 * FC^2;
         dFC = k2 * CT - kr2 * FC^2;
         

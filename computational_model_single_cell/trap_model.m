@@ -1,11 +1,11 @@
-function dydt = trap_model(I,ks)
+function dydt = trap_model(ks)
 % Single-cell model,
 % Includes trap states, excludes charge transfer and radiative FC, excludes current flow, recombination and exciton decay
 %%  see curr_model for a more physically accurate version
 % dydt = [dExcitons; dTrapState; dElectrons]
 
 %% Initialise inputs
-if nargin <= 1
+if nargin < 1
     k1 = 1e10;
     
     kd1 = 1e7;
@@ -15,7 +15,8 @@ if nargin <= 1
     kt = 1e5;
     kdt = 1e5;
     T = 1e22; 
-    
+    G0 = 2.5171e+37; %generation for incident intensity of 1000 W.m^-2, all other variables same as main.m
+
 else
     k1 = ks(1); %exciton dissociation rate
     kd1 = ks(2); %non-radiative exciton decay
